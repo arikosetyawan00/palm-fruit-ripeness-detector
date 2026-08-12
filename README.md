@@ -1,110 +1,161 @@
 # 🌴 Palm Fruit Ripeness Detector
 
-Aplikasi Android untuk deteksi tingkat kematangan buah sawit menggunakan YOLOv8 (Computer Vision), dengan backend Node.js dan frontend React Native (Expo).
+**AI-powered mobile app untuk mendeteksi tingkat kematangan buah kelapa sawit secara real-time, dari foto ke hasil dalam hitungan detik.**
 
-Dibuat sebagai portofolio untuk lamaran **AI Development Intern (OPTRA) — PT SMART Tbk**.
+Dibangun end-to-end sebagai proyek portofolio untuk lamaran **AI Development Intern (OPTRA) — PT SMART Tbk**: mulai dari training model computer vision, backend inference API, sampai aplikasi Android yang bisa langsung diinstall dan dicoba.
 
-## Arsitektur
+---
+
+## 📱 Demo
+
+<!-- GANTI dengan screenshot/GIF asli kamu -->
+| Ambil Foto | Hasil Deteksi |
+|---|---|
+| ![screenshot 1](docs/screenshot-1.jpg) | ![screenshot 2](docs/screenshot-2.jpg) |
+
+🎥 **[Tonton video demo lengkap →](GANTI_DENGAN_LINK_VIDEO_KAMU)**
+
+📲 **[Download & install APK →](https://expo.dev/accounts/laenztrack/projects/palm-ripeness-detector/builds/5a1835ea-3c25-4f29-aff1-69c7af0ad5da)**
+
+---
+
+## 🏆 Hasil
+
+| Metrik | Hasil |
+|---|---|
+| **Akurasi (Top-1)** | **98.2%** |
+| Akurasi (Top-5) | 100% |
+| Baseline pembanding* | 75.94% |
+| Ukuran model | 5.5 MB (ONNX) |
+| Waktu inference | ~13ms/gambar |
+
+<sub>*Baseline dari riset akademik dengan dataset yang sama (InceptionV3 + ANN). Model YOLOv8-cls di proyek ini mengungguli baseline tersebut lebih dari 22 poin.</sub>
+
+---
+
+## 💡 Kenapa Proyek Ini?
+
+PT SMART Tbk mengembangkan inisiatif AI untuk operasional perkebunan sawit, termasuk **Smart Grading TPH** dan sistem inspeksi berbasis computer vision. Proyek ini adalah simulasi kecil dari masalah nyata tersebut: bagaimana AI bisa membantu pekerja lapangan menilai kematangan buah secara cepat dan konsisten, tanpa bergantung sepenuhnya pada penilaian visual manual.
+
+---
+
+## 🏗️ Arsitektur
 
 ```
-[HP Android - React Native/Expo]
-        |  (foto/upload gambar)
-        v
-[Backend Node.js + Express]
-        |  (jalankan model ONNX)
-        v
-[Model YOLOv8 hasil training di Colab]
+┌─────────────────────┐      foto       ┌──────────────────────┐      inference      ┌─────────────────────┐
+│   Android App        │ ───────────────▶ │   Backend API         │ ──────────────────▶ │   Model YOLOv8-cls   │
+│  (React Native/Expo) │ ◀─────────────── │  (Node.js + Express)  │ ◀────────────────── │   (ONNX Runtime)      │
+└─────────────────────┘   hasil deteksi   └──────────────────────┘      prediksi        └─────────────────────┘
+                                                                                                    ▲
+                                                                                                    │ trained on
+                                                                                          ┌─────────────────────┐
+                                                                                          │  Google Colab (GPU)  │
+                                                                                          │  Dataset: Kaggle      │
+                                                                                          └─────────────────────┘
 ```
 
-## Struktur Folder
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Tools |
+|---|---|
+| **Model Training** | Python, YOLOv8 (Ultralytics), Google Colab (GPU) |
+| **Model Format** | ONNX |
+| **Backend** | Node.js, Express, onnxruntime-node, Sharp |
+| **Mobile App** | React Native, Expo, expo-camera |
+| **Build & Distribution** | EAS Build (APK) |
+| **Dataset** | [Ripeness of Oil Palm Fruit](https://www.kaggle.com/datasets/ramadanizikri112/ripeness-of-oil-palm-fruit) (Kaggle, 3.000 gambar) |
+
+---
+
+## 📂 Struktur Proyek
 
 ```
 palm-detector/
-├── backend/                        # Server Node.js
-│   ├── server.js                   # API endpoint /detect
-│   ├── model/                      # Taruh palm_ripeness.onnx di sini
-│   └── package.json
-├── mobile/                         # App React Native (Expo)
-│   └── App.js                      # UI kamera + hasil deteksi
-└── train_palm_ripeness_colab.ipynb # Notebook training model (jalankan di Colab)
+├── backend/                        # Server Node.js — inference API
+│   ├── server.js                   # Endpoint /detect
+│   └── model/
+│       └── palm_ripeness.onnx      # Model hasil training (5.5MB)
+├── mobile/                         # App Android (React Native/Expo)
+│   ├── App.js                      # UI kamera + hasil klasifikasi
+│   └── eas.json                    # Konfigurasi build APK
+└── train_palm_ripeness_colab.ipynb # Notebook training (sudah ada hasil run)
 ```
 
-## Langkah Menjalankan Project
+---
 
-### 1. Training Model (Google Colab)
+## ✨ Fitur
 
-Dataset yang dipakai: [ripeness-of-oil-palm-fruit](https://www.kaggle.com/datasets/ramadanizikri112/ripeness-of-oil-palm-fruit) (3.000 gambar, 3 kelas: unripe/ripe/overripe, 224x224px). Ini dataset **classification** (bukan object detection), jadi notebook sudah disesuaikan pakai `yolov8n-cls`.
+- 📷 **Ambil foto langsung** dari kamera atau pilih dari galeri
+- 🧠 **Klasifikasi 3 kelas**: unripe (mentah), ripe (matang), overripe (terlalu matang)
+- ⚡ **Real-time**: hasil deteksi dalam hitungan detik
+- 📊 **Confidence score** untuk setiap prediksi
+- 🔌 **Backend terpisah** — model bisa di-scale/deploy independen dari app
 
-1. Upload `train_palm_ripeness_colab.ipynb` ke [Google Colab](https://colab.research.google.com)
-2. Runtime > Change runtime type > pilih **GPU**
-3. Jalankan semua cell satu per satu (ikuti instruksi di tiap cell) — dataset otomatis didownload dari Kaggle via API
-4. Setelah selesai, file `palm_ripeness.onnx` akan otomatis terdownload
-5. Sebagai pembanding: riset dengan dataset yang sama (InceptionV3 + ANN) dapat akurasi 75.94% — jadikan ini baseline target
+---
 
-### 2. Setup Backend
+## 🚀 Menjalankan Proyek Ini
+
+### 1. Training Model (opsional — model sudah tersedia di `backend/model/`)
+
+Buka `train_palm_ripeness_colab.ipynb` di [Google Colab](https://colab.research.google.com) dengan GPU aktif, jalankan semua cell secara berurutan.
+
+### 2. Backend
 
 ```bash
 cd backend
 npm install
-```
-
-Taruh file `palm_ripeness.onnx` yang sudah didownload dari Colab ke folder `backend/model/`.
-
-`CLASS_NAMES` di `server.js` sudah diatur `["overripe", "ripe", "unripe"]` (urutan alfabetis, sesuai cara Ultralytics menyusun folder kelas otomatis). Kalau setelah training ternyata urutannya beda, cek dengan print `model.names` di Colab lalu sesuaikan urutan di `server.js`.
-
-Jalankan server:
-```bash
 node server.js
 ```
 
-Server akan jalan di `http://localhost:3000`. Test dengan buka `http://localhost:3000/health` di browser — harus muncul `{"status":"ok","modelLoaded":true}`.
+Cek di browser: `http://localhost:3000/health` → harus muncul `{"status":"ok","modelLoaded":true}`
 
-### 3. Setup Mobile App
+### 3. Mobile App
 
 ```bash
 cd mobile
 npm install
-```
-
-**Penting:** buka `App.js`, ganti `API_URL` dari `http://localhost:3000` ke IP lokal laptop kamu (misal `http://192.168.1.5:3000`) supaya HP bisa akses backend saat development. Cara cek IP laptop: `ipconfig` (Windows) atau `ifconfig` (Mac/Linux).
-
-Jalankan:
-```bash
 npx expo start
 ```
 
-Scan QR code yang muncul pakai aplikasi **Expo Go** di HP Android kamu.
+Scan QR code dengan aplikasi **Expo Go** di HP Android (pastikan HP & laptop di WiFi yang sama, dan `API_URL` di `App.js` sudah diarahkan ke IP lokal laptop).
 
-### 4. Deploy Backend ke Production (Gratis)
-
-1. Push folder `backend/` ke repo GitHub
-2. Daftar di [Render.com](https://render.com) (gratis, tanpa kartu kredit)
-3. New > Web Service > connect ke repo GitHub kamu
-4. Set start command: `node server.js`
-5. Upload juga file model ONNX-nya (atau host terpisah, karena ukurannya bisa besar — lihat catatan di bawah)
-6. Setelah deploy, ganti `API_URL` di `App.js` dengan URL Render kamu (misal `https://palm-detector-backend.onrender.com`)
-
-### 5. Build APK untuk Portofolio
+### 4. Build APK Sendiri
 
 ```bash
 cd mobile
-npx eas login
 npx eas build -p android --profile preview
 ```
 
-Setelah selesai, kamu dapat link download `.apk`. Upload ke GitHub Releases di repo kamu, dan cantumkan link-nya di README supaya recruiter bisa langsung install & coba.
+---
 
-## Catatan Penting
+## 🧩 Tantangan & Solusi
 
-- **Model ONNX bisa berukuran besar** (puluhan MB). Kalau terlalu besar untuk di-commit ke GitHub biasa, pertimbangkan pakai Git LFS, atau host modelnya terpisah (misal Hugging Face Hub) dan download saat server start.
-- **Free tier Render "tidur"** setelah 15 menit nganggur — request pertama ke API akan lambat (~30-60 detik). Ini normal, sudah dikasih tau di UI app-nya ("backend gratis bisa lambat...").
-- Kalau dataset sawit spesifik susah dicari di Kaggle, boleh mulai dengan dataset fruit ripeness umum dulu untuk buktikan pipeline-nya jalan end-to-end, baru nanti diganti/fine-tune dengan data sawit kalau dapat.
-- Model ini adalah **classification** (1 gambar = 1 prediksi kematangan keseluruhan), bukan object detection dengan bounding box. Jadi cocok untuk foto 1 buah/tandan yang di-crop cukup dekat — bukan untuk mendeteksi banyak buah sekaligus dalam 1 foto lebar. Kalau nanti mau upgrade ke deteksi multi-objek per foto, itu perlu dataset dengan anotasi bounding box terpisah (beda dari dataset Kaggle yang dipakai sekarang).
+Beberapa tantangan teknis nyata yang dihadapi & diselesaikan selama pengembangan:
 
-## Untuk Portofolio
+- **Format dataset tidak sesuai asumsi awal** — dataset Kaggle ternyata berformat klasifikasi (folder per kelas), bukan object detection dengan bounding box. Solusi: beralih dari YOLOv8 *detection* mode ke *classification* mode (`yolov8n-cls`), yang justru lebih sesuai untuk kasus 1 foto = 1 label.
+- **Nama folder dataset dalam Bahasa Indonesia** (`Belum Masak`, `Masak`, `Terlalu Masak`) — dibuat mapping otomatis ke label Inggris standar (`unripe`/`ripe`/`overripe`) di notebook training.
+- **Expo SDK version mismatch** — project awal menggunakan SDK terbaru yang belum stabil didukung Expo Go di Play Store. Solusi: downgrade terkontrol ke SDK 54 (versi stabil terkonfirmasi).
+- **Kondisi lapangan minim sinyal** — untuk implementasi nyata di kebun, desain backend-based ini punya keterbatasan konektivitas. Arsitektur bisa di-upgrade ke on-device inference (TFLite) atau offline-first queue untuk skenario tanpa sinyal.
 
-Setelah semua jalan, dokumentasikan di README ini atau di GitHub repo terpisah:
-- Screenshot/video demo aplikasi
-- Metrics hasil training (akurasi/mAP dari Colab)
-- Link APK download
-- Penjelasan singkat arsitektur (bisa pakai diagram di atas)
+---
+
+## 🔮 Pengembangan Selanjutnya
+
+- [ ] On-device inference (TFLite) untuk penggunaan offline penuh di lapangan
+- [ ] Offline queue + auto-sync untuk kondisi minim sinyal
+- [ ] Dataset lebih besar & beragam (kondisi pencahayaan, sudut foto berbeda)
+- [ ] Deploy backend ke hosting permanen (Render/Railway)
+
+---
+
+## 👤 Kontak
+
+**Ariko Yahya Setyawan**
+📧 arikosetyawan00@gmail.com
+🔗 [LinkedIn](https://linkedin.com/in/ariko-yahya-setyawan) · [Portfolio](https://arikosetyawan00.github.io)
+
+---
+
+<sub>Dibuat sebagai proyek portofolio pribadi. Dataset digunakan untuk keperluan riset/edukasi non-komersial.</sub>
