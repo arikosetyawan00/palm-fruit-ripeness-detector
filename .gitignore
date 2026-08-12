@@ -1,0 +1,16 @@
+node_modules/
+backend/node_modules/
+mobile/node_modules/
+mobile/.expo/
+mobile/dist/
+kaggle.json
+**/kaggle.json
+.env
+.env.local
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+*.apk
+*.aab
+*.ipa
