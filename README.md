@@ -2,7 +2,7 @@
 
 **AI-powered mobile app untuk mendeteksi tingkat kematangan buah kelapa sawit secara real-time, dari foto ke hasil dalam hitungan detik.**
 
-Dibangun end-to-end sebagai proyek portofolio untuk lamaran **AI Development Intern (OPTRA) — PT SMART Tbk**: mulai dari training model computer vision, backend inference API, sampai aplikasi Android yang bisa langsung diinstall dan dicoba.
+Proyek portofolio pribadi yang dibangun end-to-end: mulai dari training model computer vision, backend inference API, sampai aplikasi Android yang bisa langsung diinstall dan dicoba. Dibuat untuk menunjukkan kemampuan membangun sistem AI secara menyeluruh — bukan cuma model di notebook, tapi produk yang benar-benar bisa dipakai.
 
 ---
 
@@ -35,7 +35,7 @@ Dibangun end-to-end sebagai proyek portofolio untuk lamaran **AI Development Int
 
 ## 💡 Kenapa Proyek Ini?
 
-PT SMART Tbk mengembangkan inisiatif AI untuk operasional perkebunan sawit, termasuk **Smart Grading TPH** dan sistem inspeksi berbasis computer vision. Proyek ini adalah simulasi kecil dari masalah nyata tersebut: bagaimana AI bisa membantu pekerja lapangan menilai kematangan buah secara cepat dan konsisten, tanpa bergantung sepenuhnya pada penilaian visual manual.
+Industri agrikultur (termasuk perkebunan sawit) masih banyak mengandalkan penilaian visual manual untuk hal-hal seperti kematangan buah — proses yang lambat, tidak konsisten antar orang, dan sulit di-scale. Proyek ini adalah studi kasus penerapan computer vision untuk membantu penilaian tersebut jadi lebih cepat dan konsisten, sekaligus jadi latihan membangun pipeline AI yang lengkap: dari data mentah, training model, backend production-ready, sampai aplikasi yang benar-benar bisa dipakai end-user di lapangan.
 
 ---
 
