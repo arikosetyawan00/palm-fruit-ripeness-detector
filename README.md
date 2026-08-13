@@ -15,7 +15,8 @@ Proyek portofolio pribadi yang dibangun end-to-end: mulai dari training model co
 
 🎥 **[Tonton video demo lengkap →](GANTI_DENGAN_LINK_VIDEO_KAMU)**
 
-📲 **[Download & install APK →](https://expo.dev/accounts/laenztrack/projects/palm-ripeness-detector/builds/5a1835ea-3c25-4f29-aff1-69c7af0ad5da)**
+📲 **[Download & install APK →]
+[(https://drive.google.com/file/d/139-9yZnYN1tL-onErIbJoYELLpJvbOwc/view?usp=drive_link)]**
 
 ---
 
