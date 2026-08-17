@@ -13,7 +13,7 @@ Proyek portofolio pribadi yang dibangun end-to-end: mulai dari training model co
 |---|---|
 | ![screenshot 1](docs/screenshot-1.jpg) | ![screenshot 2](docs/screenshot-2.jpg) |
 
-🎥 **[Tonton video demo lengkap →](GANTI_DENGAN_LINK_VIDEO_KAMU)**
+🎥 **[Tonton video demo lengkap →]([GANTI_DENGAN_LINK_VIDEO_KAMU](https://drive.google.com/file/d/1fVDnAbpmVZWpc3QLzD3fJdvmJ0prPa-r/view?usp=drivesdk))**
 
 📲 **[Download & install APK →]
 [(https://drive.google.com/file/d/139-9yZnYN1tL-onErIbJoYELLpJvbOwc/view?usp=drive_link)]**
