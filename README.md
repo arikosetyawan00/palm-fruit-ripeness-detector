@@ -9,7 +9,7 @@ Proyek portofolio pribadi yang dibangun end-to-end: mulai dari training model co
 ## 📱 Demo
 
 <!-- GANTI dengan screenshot/GIF asli kamu -->
-| Ambil Foto | Hasil Deteksi |
+| SS 1 | SS 2 |
 |---|---|
 | ![screenshot 1](docs/screenshot-1.jpeg) | ![screenshot 2](docs/screenshot-2.jpeg) |
 
