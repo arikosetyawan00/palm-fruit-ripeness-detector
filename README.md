@@ -11,7 +11,7 @@ Proyek portofolio pribadi yang dibangun end-to-end: mulai dari training model co
 <!-- GANTI dengan screenshot/GIF asli kamu -->
 | Ambil Foto | Hasil Deteksi |
 |---|---|
-| ![screenshot 1](docs/screenshot-1.jpg) | ![screenshot 2](docs/screenshot-2.jpg) |
+| ![screenshot 1](docs/screenshot-1.jpeg) | ![screenshot 2](docs/screenshot-2.jpeg) |
 
 🎥 **[Tonton video demo lengkap →]([GANTI_DENGAN_LINK_VIDEO_KAMU][(https://drive.google.com/file/d/1fVDnAbpmVZWpc3QLzD3fJdvmJ0prPa-r/view?usp=drivesdk)]**
 
